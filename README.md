@@ -1,5 +1,5 @@
 # MuleSoft-Internship
-This project is done using Netbeans 8.2 and SQLite database
+This mini project for inserting and displaying the enterd data to the database, it is done using Netbeans 8.2 and SQLite database
 ------------------------------------------------------------
 Name of the database is movie.db
 This is the table used
