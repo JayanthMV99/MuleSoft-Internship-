@@ -1,0 +1,87 @@
+package mulesoft.internship;
+
+import java.sql.*;
+import java.util.*;
+
+public class sqlite {
+
+    public static void main(String[] args) throws SQLException {
+
+        String jdbcUrl;
+        jdbcUrl = "jdbc:sqlite:D:\\SQLite\\sqlite-tools-win32-x86-3360000\\movie.db";
+
+        Scanner sc = new Scanner(System.in);
+        OUTER:
+        while (true) {
+            System.out.println("Select your choice \n 1. Insert Data \t 2. Retrive Data \t 3. Exit");
+            System.out.print("Enter your choice: ");
+            int n = sc.nextInt();
+            switch (n) {
+                case 1:
+                    try {
+                        String yr;
+
+                        System.out.println("Enter movie name: ");
+                        String name = sc.nextLine();
+
+                        name = sc.nextLine();
+
+                        System.out.println("Enter actor name: ");
+                        String actor = sc.nextLine();
+
+                        System.out.println("Enter actress name: ");
+                        String actress = sc.nextLine();
+
+                        System.out.println("Enter director name: ");
+                        String director = sc.nextLine();
+
+                        System.out.println("Enter year of release only number: ");
+                        yr = sc.nextLine();
+
+                        try {
+                            Integer.parseInt(yr);
+                          
+                        } catch (NumberFormatException e) {
+                            System.out.println(yr + " is not valid year");
+                            break;
+                        }
+                        Connection con = DriverManager.getConnection(jdbcUrl);
+
+                        String sql = "insert into movie values('" + name + "','" + actor + "','" + actress + "','" + director + "','" + yr + "')";
+                        Statement st1 = con.createStatement();
+                        st1.execute(sql);
+
+                        System.out.println("Data inserted");
+
+                    } catch (SQLException e) {
+                        System.out.println("Try again could not insert");
+                    }
+                    break;
+                case 2:
+                    try {
+                        Connection con = DriverManager.getConnection(jdbcUrl);
+                        String sql = "Select * from movie";
+                        Statement st = con.createStatement();
+                        ResultSet rs = st.executeQuery(sql);
+
+                        while (rs.next()) {
+                            String name = rs.getString("name");
+                            String actor = rs.getString("actor");
+                            String actress = rs.getString("actress");
+                            String director = rs.getString("director");
+                            int year = rs.getInt("year_of_release");
+                            System.out.println(name + " | " + actor + " | " + " | " + actress + " | " + director + " | " + year);
+                        }
+                    } catch (SQLException e) {
+                        System.out.println("Error connecting SQLite database");
+                        //e.printStackTrace();;
+                    }
+                    break;
+                default:
+                    break OUTER;
+            }
+        }
+
+    }
+
+}
